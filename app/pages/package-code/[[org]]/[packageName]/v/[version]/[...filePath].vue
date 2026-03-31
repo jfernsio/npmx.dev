@@ -310,6 +310,23 @@ defineOgImageComponent('Default', {
   description: () => pkg.value?.license ?? '',
   primaryColor: '#60a5fa',
 })
+
+// Sidebar visibility
+const { settings } = useSettings()
+const isSidebarCollapsed = computed({
+  get: () => settings.value.sidebar.collapsed.includes('code'),
+  set: value => {
+    const collapsed = settings.value.sidebar.collapsed.filter(id => id !== 'code')
+    if (value) {
+      collapsed.push('code')
+    }
+    settings.value.sidebar.collapsed = collapsed
+  },
+})
+
+function toggleSidebar() {
+  isSidebarCollapsed.value = !isSidebarCollapsed.value
+}
 </script>
 
 <template>
@@ -349,6 +366,7 @@ defineOgImageComponent('Default', {
     <div v-else-if="fileTree" class="flex flex-1" dir="ltr">
       <!-- File tree sidebar - sticky with internal scroll -->
       <aside
+        v-show="!isSidebarCollapsed"
         class="w-64 lg:w-72 border-ie border-border shrink-0 hidden md:block bg-bg-subtle sticky top-25 self-start h-[calc(100vh-7rem)] overflow-y-auto"
       >
         <CodeFileTree
@@ -365,6 +383,20 @@ defineOgImageComponent('Default', {
           class="sticky z-5 top-25 bg-bg border-b border-border px-4 py-2 flex items-center justify-between gap-2 text-nowrap overflow-x-auto max-w-full"
         >
           <div class="flex items-center gap-2">
+            <!-- Sidebar toggle button -->
+            <button
+              type="button"
+              class="hidden md:flex items-center justify-center w-8 h-8 text-fg-subtle hover:text-fg transition-colors focus-visible:outline-accent/70 rounded"
+              :aria-label="$t(isSidebarCollapsed ? 'code.show_sidebar' : 'code.hide_sidebar')"
+              @click="toggleSidebar"
+            >
+              <span
+                class="w-4 h-4"
+                :class="isSidebarCollapsed ? 'i-lucide:sidebar-open' : 'i-lucide:sidebar-close'"
+                aria-hidden="true"
+              />
+            </button>
+
             <div
               v-if="fileContent?.markdownHtml"
               class="flex items-center gap-1 p-0.5 bg-bg-subtle border border-border-subtle rounded-md overflow-x-auto"
