@@ -851,9 +851,7 @@
     },
     "file_path": "File path",
     "binary_file": "Binary file",
-    "binary_rendering_warning": "File type \"{contentType}\" is not supported for preview.",
-    "show_sidebar": "Show sidebar",
-    "hide_sidebar": "Hide sidebar"
+    "binary_rendering_warning": "File type \"{contentType}\" is not supported for preview."
   },
   "badges": {
     "provenance": {
