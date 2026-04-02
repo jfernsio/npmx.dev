@@ -366,6 +366,7 @@ function toggleSidebar() {
     <div v-else-if="fileTree" class="flex flex-1" dir="ltr">
       <!-- File tree sidebar - sticky with internal scroll -->
       <aside
+        id="file-tree-sidebar"
         v-show="!isSidebarCollapsed"
         class="w-64 lg:w-72 border-ie border-border shrink-0 hidden md:block bg-bg-subtle sticky top-25 self-start h-[calc(100vh-7rem)] overflow-y-auto"
       >
@@ -388,6 +389,8 @@ function toggleSidebar() {
               type="button"
               class="hidden md:flex items-center justify-center w-8 h-8 text-fg-subtle hover:text-fg transition-colors focus-visible:outline-accent/70 rounded"
               :aria-label="$t(isSidebarCollapsed ? 'code.show_sidebar' : 'code.hide_sidebar')"
+              :aria-expanded="!isSidebarCollapsed"
+              aria-controls="file-tree-sidebar"
               @click="toggleSidebar"
             >
               <span
